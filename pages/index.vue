@@ -1,83 +1,78 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
+  <v-app>
+    <v-card width="600px" class="mx-auto mt-10 blue white--text" tile elevation="0">
+      <p class="text-h3 text-center ma-0">TODO LIST</p>
+    </v-card>
+
+    <AddTaskField />
+
+    <v-card class="mx-auto mt-10" width="600px" tile>
+      <v-list dense flat >
+        <v-subheader class="mb-3 d-flex justify-space-between">
+          <span class="text-h6 blue--text">1 Items Left</span>
+          <div class>
+            <v-btn-toggle tile color="blue align-self-center" group v-model="toggleNum" mandatory>
+              <v-btn value="left">All</v-btn>
+              <v-btn value="center">Active</v-btn>
+              <v-btn value="right">Completed</v-btn>
+            </v-btn-toggle>
           </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+        </v-subheader>
+        <v-divider />
+        <v-list-item-group v-for="todo in todos">
+          <v-list-item class="pt-3 pb-3">
+            <v-list-item-action>
+              <v-checkbox></v-checkbox>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title class="text-h5">{{ todo }}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-btn icon class="mr-5">
+                <v-icon class="mx-auto">mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon class="mx-auto">mdi-delete</v-icon>
+              </v-btn>
+            </v-list-item-icon>
+          </v-list-item>
+          <v-divider />
+        </v-list-item-group>
+      </v-list>
+    </v-card>
+  </v-app>
 </template>
 
 <script>
+import AddTaskField from "../components/addTaskField.vue";
+
 export default {
-  name: 'IndexPage'
+  components: { AddTaskField },
+
+  data() {
+    return {
+      todos: [],
+      toggleNum: 'left'
+    };
+  },
+
+
+
 }
+
+
 </script>
+
+<style  scoped>
+::v-deep .v-application--wrap {
+  min-height: initial;
+}
+
+::v-deep .v-text-field > .v-input__control > .v-input__slot:before {
+  border: none;
+}
+
+::v-deep .v-list{
+  padding-bottom: 0 !important;
+}
+</style>
