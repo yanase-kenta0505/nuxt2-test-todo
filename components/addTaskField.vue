@@ -20,12 +20,21 @@
 </template>
 
 <script>
-export default{
+export default {
   data() {
     return {
       newTaskName: '',
     };
   },
+  methods: {
+    addTodo() {
+      this.$emit('addTodo', {
+        taskName: this.newTaskName,
+        done: false
+      })
+      this.newTaskName = ""
+    }
+  }
 }
 
 </script>

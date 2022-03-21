@@ -4,13 +4,15 @@
       <p class="text-h3 text-center ma-0">TODO LIST</p>
     </v-card>
 
-    <AddTaskField />
+    <AddTaskField @addTodo="addTodo" />
 
     <v-card class="mx-auto mt-10" width="600px" tile>
-      <v-list dense flat >
+      <v-list dense flat>
         <v-subheader class="mb-3 d-flex justify-space-between">
-          <span class="text-h6 blue--text">1 Items Left</span>
-          <div class>
+          <div class="text-h6 blue--text ml-2">
+            <p class="ma-0" >{{ todos.length }} Items Left</p>
+          </div>
+          <div>
             <v-btn-toggle tile color="blue align-self-center" group v-model="toggleNum" mandatory>
               <v-btn value="left">All</v-btn>
               <v-btn value="center">Active</v-btn>
@@ -19,21 +21,19 @@
           </div>
         </v-subheader>
         <v-divider />
-        <v-list-item-group v-for="todo in todos">
+        <v-list-item-group v-for="(todo, index) in todos" :key="todo.taskName">
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
               <v-checkbox></v-checkbox>
             </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="text-h5">{{ todo }}</v-list-item-title>
+            <v-list-item-content >
+              <v-list-item-title  class="text-h6">{{ todo.taskName }}</v-list-item-title>
             </v-list-item-content>
             <v-list-item-icon>
               <v-btn icon class="mr-5">
                 <v-icon class="mx-auto">mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon>
-                <v-icon class="mx-auto">mdi-delete</v-icon>
-              </v-btn>
+              <DeleteBtn @deleteItem="deleteItem(index)" />
             </v-list-item-icon>
           </v-list-item>
           <v-divider />
@@ -45,9 +45,10 @@
 
 <script>
 import AddTaskField from "../components/addTaskField.vue";
+import DeleteBtn from "../components/deleteBtn.vue";
 
 export default {
-  components: { AddTaskField },
+  components: { AddTaskField, DeleteBtn },
 
   data() {
     return {
@@ -56,7 +57,14 @@ export default {
     };
   },
 
-
+  methods: {
+    addTodo(newTask) {
+      this.todos.push(newTask)
+    },
+    deleteItem(index) {
+      this.todos.splice(index, 1)
+    }
+  }
 
 }
 
@@ -72,7 +80,7 @@ export default {
   border: none;
 }
 
-::v-deep .v-list{
+::v-deep .v-list {
   padding-bottom: 0 !important;
 }
 </style>
