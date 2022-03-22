@@ -1,14 +1,10 @@
 <template>
   <v-app>
-    <v-card
-      width="600px"
-      class="mx-auto mt-10 blue white--text"
-      tile
-      elevation="0"
-    >
-      <p class="text-h3 text-center ma-0">TODO LIST</p>
-    </v-card>
-
+    <Title>
+      <template #yanase>
+        <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
+      </template>
+    </Title>
     <AddTaskField
       @reflectionTaskName="reflectionTaskName"
       @addTodo="addTodo"
@@ -70,13 +66,14 @@
   </v-app>
 </template>
 
-<script>
+<script >
 import AddTaskField from "../components/addTaskField.vue";
 import DeleteBtn from "../components/deleteBtn.vue";
 import EditBtn from "../components/editBtn.vue";
+import Title from "../components/title.vue";
 
 export default {
-  components: { AddTaskField, DeleteBtn, EditBtn },
+  components: { AddTaskField, DeleteBtn, EditBtn, Title },
 
   data() {
     return {
