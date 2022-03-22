@@ -30,6 +30,7 @@ export default {
     addTodo() {
       this.$emit('addTodo', {
         taskName: this.newTaskName,
+        selected:false,
         done: false
       })
       this.newTaskName = ""
