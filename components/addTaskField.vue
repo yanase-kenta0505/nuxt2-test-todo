@@ -2,7 +2,8 @@
   <v-app>
     <v-card width="600px" class="mx-auto mt-10" tile>
       <v-text-field
-        v-model="newTaskName"
+        :value="newTaskName"
+        @input="reflectionTaskName"
         @keydown.enter="addTodo"
         autofocus
         autocomplete="off"
@@ -21,21 +22,22 @@
 
 <script>
 export default {
-  data() {
-    return {
-      newTaskName: '',
-    };
+  props: {
+    newTaskName: {
+      type: String,
+    },
   },
   methods: {
+    reflectionTaskName(e){
+      this.$emit('reflectionTaskName',e)
+    },
     addTodo() {
-      this.$emit('addTodo', {
+      this.$emit("addTodo", {
         taskName: this.newTaskName,
-        selected:false,
-        done: false
-      })
-      this.newTaskName = ""
-    }
-  }
-}
-
+        selected: false,
+        done: false,
+      });
+    },
+  },
+};
 </script>

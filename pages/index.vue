@@ -9,7 +9,11 @@
       <p class="text-h3 text-center ma-0">TODO LIST</p>
     </v-card>
 
-    <AddTaskField @addTodo="addTodo" />
+    <AddTaskField
+      @reflectionTaskName="reflectionTaskName"
+      @addTodo="addTodo"
+      :newTaskName="newTaskName"
+    />
 
     <v-card class="mx-auto mt-10" width="600px" tile>
       <v-list dense flat>
@@ -78,12 +82,17 @@ export default {
     return {
       todos: [],
       toggleNum: "left",
+      newTaskName: "",
     };
   },
 
   methods: {
+    reflectionTaskName(e) {
+      this.newTaskName = e;
+    },
     addTodo(newTask) {
       this.todos.push(newTask);
+      this.newTaskName = "";
     },
     deleteItem(index) {
       this.todos.splice(index, 1);
