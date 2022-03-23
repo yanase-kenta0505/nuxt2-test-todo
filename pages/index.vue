@@ -8,6 +8,7 @@
     <AddTaskField
       @reflectionTaskName="reflectionTaskName"
       @addTodo="addTodo"
+      @allClear="allClear"
       :newTaskName="newTaskName"
     />
 
@@ -32,7 +33,7 @@
           </div>
         </v-subheader>
         <v-divider />
-        <v-list-item-group v-for="(todo, index) in todos" :key="todo.id">
+        <v-list-item-group v-for="(todo, index) in todos" :key="todo.taskName">
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
               <v-checkbox v-model="todo.done"></v-checkbox>
@@ -107,6 +108,10 @@ export default {
         this.todos[index].taskName = e.target.value;
         this.todos[index].selected = !this.todos[index].selected;
       }
+    },
+    allClear() {
+      const newTodos = this.todos.filter((todo) => !todo.done);
+      this.todos = newTodos
     },
   },
 };
