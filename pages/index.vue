@@ -32,7 +32,7 @@
           </div>
         </v-subheader>
         <v-divider />
-        <v-list-item-group v-for="(todo, index) in todos" :key="todo.taskName">
+        <v-list-item-group v-for="(todo, index) in todos" :key="todo.id">
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
               <v-checkbox v-model="todo.done"></v-checkbox>
@@ -46,8 +46,8 @@
                 solo
                 flat
                 height="30px"
-                :outlined="todo.selected"
-                :disabled="!todo.selected"
+                :outlined="todo.selected && !todo.done"
+                :disabled="!todo.selected && todo.done"
                 :value="todo.taskName"
                 class="red--text"
                 :class="[todo.done ? 'text-decoration-line-through' : '']"
@@ -101,8 +101,12 @@ export default {
       this.todos[index].selected = !this.todos[index].selected;
     },
     changeTaskName(index, e) {
-      this.todos[index].taskName = e.target.value;
-      this.todos[index].selected = !this.todos[index].selected;
+      if (e.target.value === "") {
+        this.todos.splice(index, 1);
+      } else {
+        this.todos[index].taskName = e.target.value;
+        this.todos[index].selected = !this.todos[index].selected;
+      }
     },
   },
 };
