@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-card width="600px" class="mx-auto mt-10" tile>
+    <v-card width="600px" class="mx-auto mt-10 d-flex" tile>
+      <AllClearBtn @allClear="allClear" class="align-self-center ml-2" />
       <v-text-field
         :value="newTaskName"
         @input="reflectionTaskName"
@@ -21,15 +22,17 @@
 </template>
 
 <script>
+import AllClearBtn from "./allClearBtn.vue";
 export default {
+  components: { AllClearBtn },
   props: {
     newTaskName: {
       type: String,
     },
   },
   methods: {
-    reflectionTaskName(e){
-      this.$emit('reflectionTaskName',e)
+    reflectionTaskName(e) {
+      this.$emit("reflectionTaskName", e);
     },
     addTodo() {
       this.$emit("addTodo", {
@@ -37,6 +40,9 @@ export default {
         selected: false,
         done: false,
       });
+    },
+    allClear() {
+      this.$emit("allClear");
     },
   },
 };
