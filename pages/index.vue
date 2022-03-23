@@ -35,7 +35,7 @@
         <v-list-item-group v-for="(todo, index) in todos" :key="todo.taskName">
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
-              <v-checkbox></v-checkbox>
+              <v-checkbox v-model="todo.done"></v-checkbox>
             </v-list-item-action>
             <v-list-item-content>
               <v-text-field
@@ -50,6 +50,7 @@
                 :disabled="!todo.selected"
                 :value="todo.taskName"
                 class="red--text"
+                :class="[todo.done ? 'text-decoration-line-through' : '']"
                 @blur="changeTaskName(index, $event)"
                 @keydown.enter="changeTaskName(index, $event)"
               />
@@ -88,6 +89,7 @@ export default {
       this.newTaskName = e;
     },
     addTodo(newTask) {
+      if (newTask.taskName === "") return;
       this.todos.push(newTask);
       this.newTaskName = "";
     },
