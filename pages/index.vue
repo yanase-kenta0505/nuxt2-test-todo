@@ -26,9 +26,9 @@
               v-model="toggleNum"
               mandatory
             >
-              <v-btn value="left">All</v-btn>
-              <v-btn value="center">Active</v-btn>
-              <v-btn value="right">Completed</v-btn>
+              <v-btn value="All">All</v-btn>
+              <v-btn value="Active">Active</v-btn>
+              <v-btn value="Completed">Completed</v-btn>
             </v-btn-toggle>
           </div>
         </v-subheader>
@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       todos: [],
-      toggleNum: "left",
+      toggleNum: "All",
       newTaskName: "",
     };
   },
