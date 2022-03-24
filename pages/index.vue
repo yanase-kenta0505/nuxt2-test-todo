@@ -39,9 +39,14 @@
         >
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
-              <v-checkbox v-model="todo.done"></v-checkbox>
+              <v-checkbox
+                v-model="todo.done"
+                :disabled="todo.selected"
+              ></v-checkbox>
             </v-list-item-action>
-            <v-list-item-content>
+            <v-list-item-content
+              :class="[todo.done ? 'text-decoration-line-through' : '']"
+            >
               <v-text-field
                 id="taskName"
                 autocomplete="off"
@@ -51,10 +56,9 @@
                 flat
                 height="30px"
                 :outlined="todo.selected && !todo.done"
-                :disabled="!todo.selected && todo.done"
+                :disabled="!todo.selected || todo.done"
                 :value="todo.taskName"
                 class="red--text"
-                :class="[todo.done ? 'text-decoration-line-through' : '']"
                 @blur="changeTaskName(index, $event)"
                 @keydown.enter="changeTaskName(index, $event)"
               />
@@ -111,6 +115,7 @@ export default {
       this.todos.splice(index, 1);
     },
     editTaskName(index) {
+      if (this.todos[index].done) return;
       this.todos[index].selected = !this.todos[index].selected;
     },
     changeTaskName(index, e) {
