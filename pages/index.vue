@@ -23,7 +23,7 @@
               tile
               color="blue align-self-center"
               group
-              v-model="toggleNum"
+              v-model="toggleStatus"
               mandatory
             >
               <v-btn value="All">All</v-btn>
@@ -33,7 +33,7 @@
           </div>
         </v-subheader>
         <v-divider />
-        <v-list-item-group v-for="(todo, index) in todos" :key="todo.taskName">
+        <v-list-item-group v-for="(todo, index) in filteredTodos" :key="todo.taskName">
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
               <v-checkbox v-model="todo.done"></v-checkbox>
@@ -80,9 +80,25 @@ export default {
   data() {
     return {
       todos: [],
-      toggleNum: "All",
+      toggleStatus: "All",
       newTaskName: "",
     };
+  },
+
+  computed: {
+    filteredTodos() {
+      if (this.toggleStatus === "Active") {
+        return this.todos.filter((todo) => {
+          return todo.done === false;
+        });
+      } else if (this.toggleStatus === "Completed") {
+        return this.todos.filter((todo) => {
+          return todo.done === true;
+        });
+      } else {
+        return this.todos;
+      }
+    },
   },
 
   methods: {
@@ -98,7 +114,6 @@ export default {
       this.todos.splice(index, 1);
     },
     editTaskName(index) {
-      console.log(this.todos);
       this.todos[index].selected = !this.todos[index].selected;
     },
     changeTaskName(index, e) {
@@ -111,7 +126,7 @@ export default {
     },
     allClear() {
       const newTodos = this.todos.filter((todo) => !todo.done);
-      this.todos = newTodos
+      this.todos = newTodos;
     },
   },
 };
