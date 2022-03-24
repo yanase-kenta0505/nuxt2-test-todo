@@ -33,7 +33,10 @@
           </div>
         </v-subheader>
         <v-divider />
-        <v-list-item-group v-for="(todo, index) in filteredTodos" :key="todo.taskName">
+        <v-list-item-group
+          v-for="(todo, index) in filteredTodos"
+          :key="todo.taskName"
+        >
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
               <v-checkbox v-model="todo.done"></v-checkbox>
@@ -88,16 +91,10 @@ export default {
   computed: {
     filteredTodos() {
       if (this.toggleStatus === "Active") {
-        return this.todos.filter((todo) => {
-          return todo.done === false;
-        });
+        return this.todos.filter((todo) => todo.done === false);
       } else if (this.toggleStatus === "Completed") {
-        return this.todos.filter((todo) => {
-          return todo.done === true;
-        });
-      } else {
-        return this.todos;
-      }
+        return this.todos.filter((todo) => todo.done === true);
+      } else return this.todos;
     },
   },
 
