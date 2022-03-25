@@ -16,7 +16,7 @@
       <v-list dense flat>
         <v-subheader class="mb-3 d-flex justify-space-between">
           <div class="text-h6 blue--text ml-2">
-            <p class="ma-0">{{ todos.length }} Items Left</p>
+            <p class="ma-0">{{ todos | findDoneItemLength }} Items Left</p>
           </div>
           <div>
             <v-btn-toggle
@@ -99,6 +99,12 @@ export default {
       } else if (this.toggleStatus === "Completed") {
         return this.todos.filter((todo) => todo.done === true);
       } else return this.todos;
+    },
+  },
+  filters: {
+    findDoneItemLength(todos) {
+      const findDoneItem = todos.filter((todo) => !todo.done);
+      return findDoneItem.length;
     },
   },
 
