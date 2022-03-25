@@ -35,6 +35,7 @@ export default {
       this.$emit("reflectionTaskName", e);
     },
     addTodo() {
+      
       this.$emit("addTodo", {
         taskName: this.newTaskName,
         selected: false,
