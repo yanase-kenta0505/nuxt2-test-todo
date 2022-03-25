@@ -113,7 +113,6 @@ export default {
 
   watch: {
     storeTodos() {
-      console.log(this.storeTodos);
       this.todos = JSON.parse(JSON.stringify(this.storeTodos));
     },
   },
@@ -135,7 +134,8 @@ export default {
       this.newTaskName = "";
     },
     deleteItem(index) {
-      this.todos.splice(index, 1);
+      // this.todos.splice(index, 1);
+      this.$store.dispatch('todos/deleteTodos', index);
     },
     editTaskName(index) {
       if (this.todos[index].done) return;
