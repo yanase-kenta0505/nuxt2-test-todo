@@ -7,8 +7,8 @@
     </Title>
     <AddTaskField
       @reflectionTaskName="reflectionTaskName"
-      @addTodo="addTodo"
       @allClear="allClear"
+      @addTodo="addTodo"
       :newTaskName="newTaskName"
     />
 
@@ -93,6 +93,15 @@ export default {
   },
 
   computed: {
+    storeTodos() {
+      //以下の方法だとオブジェクト内のプロパティの変更を検知してくれない
+      // const todos = JSON.parse(
+      //   JSON.stringify(this.$store.getters["todos/todos"])
+      // );
+      // return todos;
+      return this.$store.getters["todos/todos"];
+    },
+
     filteredTodos() {
       if (this.toggleStatus === "Active") {
         return this.todos.filter((todo) => todo.done === false);
@@ -101,6 +110,14 @@ export default {
       } else return this.todos;
     },
   },
+
+  watch: {
+    storeTodos() {
+      console.log(this.storeTodos);
+      this.todos = JSON.parse(JSON.stringify(this.storeTodos));
+    },
+  },
+
   filters: {
     findDoneItemLength(todos) {
       const findDoneItem = todos.filter((todo) => !todo.done);
@@ -114,7 +131,7 @@ export default {
     },
     addTodo(newTask) {
       if (newTask.taskName === "") return;
-      this.todos.push(newTask);
+      this.$store.dispatch("todos/addTodo", newTask);
       this.newTaskName = "";
     },
     deleteItem(index) {
