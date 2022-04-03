@@ -13,6 +13,9 @@ export const actions = {
   deleteTodos(context, index) {
     context.commit("deleteTodos", index);
   },
+  changeTodoDone(context, id) {
+    context.commit("changeTodoDone", id);
+  },
 };
 export const mutations = {
   addTodo(state, newTodoItem) {
@@ -20,5 +23,10 @@ export const mutations = {
   },
   deleteTodos(state, index) {
     state.todos.splice(index, 1);
+  },
+  changeTodoDone(state, id) {
+    // state.todos[index].done = !state.todos[index].done;
+    const changeItem = state.todos.find((todo) => todo.id === id);
+    changeItem.done = !changeItem.done;
   },
 };
