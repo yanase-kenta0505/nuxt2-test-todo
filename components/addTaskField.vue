@@ -30,17 +30,23 @@ export default {
       type: String,
     },
   },
+  data() {
+    return {
+      id: 1,
+    };
+  },
   methods: {
     reflectionTaskName(e) {
       this.$emit("reflectionTaskName", e);
     },
     addTodo() {
-      
       this.$emit("addTodo", {
+        id: this.id,
         taskName: this.newTaskName,
         selected: false,
         done: false,
       });
+      this.id++
     },
     allClear() {
       this.$emit("allClear");

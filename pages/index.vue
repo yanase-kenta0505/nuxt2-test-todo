@@ -33,20 +33,17 @@
           </div>
         </v-subheader>
         <v-divider />
-        <v-list-item-group
-          v-for="(todo, index) in filteredTodos"
-          :key="todo.taskName"
-        >
+
+        <v-list-item-group v-for="(todo, index) in filteredTodos" :key="todo.id">
           <v-list-item class="pt-3 pb-3">
             <v-list-item-action>
               <v-checkbox
-                v-model="todo.done"
+                :input-value="todo.done"
                 :disabled="todo.selected"
-              ></v-checkbox>
+                @click="changeTodoDone(todo.id)"
+              />
             </v-list-item-action>
-            <v-list-item-content
-              :class="[todo.done ? 'text-decoration-line-through' : '']"
-            >
+            <v-list-item-content :class="[todo.done ? 'text-decoration-line-through' : '']">
               <v-text-field
                 id="taskName"
                 autocomplete="off"
@@ -72,6 +69,7 @@
         </v-list-item-group>
       </v-list>
     </v-card>
+    <h3 class="text-center mt-10 mx-auto" style="width:50%;">{{ filteredTodos }}</h3>
   </v-app>
 </template>
 
@@ -89,6 +87,7 @@ export default {
       todos: [],
       toggleStatus: "All",
       newTaskName: "",
+
     };
   },
 
@@ -112,8 +111,11 @@ export default {
   },
 
   watch: {
-    storeTodos() {
-      this.todos = JSON.parse(JSON.stringify(this.storeTodos));
+    storeTodos: {
+      handler() {
+        this.todos = JSON.parse(JSON.stringify(this.storeTodos));
+      },
+      deep: true,
     },
   },
 
@@ -125,6 +127,9 @@ export default {
   },
 
   methods: {
+    changeTodoDone(id) {
+      this.$store.dispatch("todos/changeTodoDone", id);
+    },
     reflectionTaskName(e) {
       this.newTaskName = e;
     },
@@ -135,7 +140,7 @@ export default {
     },
     deleteItem(index) {
       // this.todos.splice(index, 1);
-      this.$store.dispatch('todos/deleteTodos', index);
+      this.$store.dispatch("todos/deleteTodos", index);
     },
     editTaskName(index) {
       if (this.todos[index].done) return;
