@@ -160,8 +160,9 @@ export default {
      
     },
     allClear() {
-      const newTodos = this.todos.filter((todo) => !todo.done);
-      this.todos = newTodos;
+      // const newTodos = this.todos.filter((todo) => !todo.done);
+      // this.todos = newTodos;
+      this.$store.dispatch('todos/allClear');
     },
   },
 };

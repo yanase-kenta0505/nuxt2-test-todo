@@ -31,45 +31,22 @@ export default {
 
     },
   },
-  data() {
-    return {
-      id: 1,
-    };
-  },
-
-  computed: {
-    storeId() {
-      return this.$store.getters["todos/todos"].length + 1;
-    }
-  },
-  //  computed: {
-  //   id: {
-  //     get() {
-  //       return this.$store.getters["todos/todos"].length + 1;
-  //     },
-  //     set(val) {
-  //       console.log(val)
-  //     }
-  //   }
-  // },
   watch: {
     storeId() {
       this.id = this.storeId
     }
   },
-
   methods: {
     reflectionTaskName(e) {
       this.$emit("reflectionTaskName", e);
     },
     addTodo() {
       this.$emit("addTodo", {
-        id: this.id,
+        id: new Date().getTime().toString(16),
         taskName: this.newTaskName,
         selected: false,
         done: false,
       });
-      this.id++
     },
     allClear() {
       this.$emit("allClear");
