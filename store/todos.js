@@ -22,6 +22,9 @@ export const actions = {
   changeTaskName(context, item) {
     context.commit("changeTaskName", item);
   },
+  allClear(context) {
+    context.commit("allClear");
+  },
 };
 export const mutations = {
   addTodo(state, newTodoItem) {
@@ -39,7 +42,6 @@ export const mutations = {
     state.todos = initialTodos;
   },
   changeTaskName(state, item) {
-    const selectedTodo = state.todos.find((todo) => todo.id === item.id);
     const selectedIndex = state.todos.findIndex((todo) => todo.id === item.id);
 
     if (item.newTaskName === "") {
@@ -48,5 +50,9 @@ export const mutations = {
       state.todos[selectedIndex].taskName = item.newTaskName;
       state.todos[selectedIndex].selected = false;
     }
+  },
+  allClear(state) {
+    const newTodos = state.todos.filter((todo) => todo.done === false);
+    state.todos = newTodos;
   },
 };
