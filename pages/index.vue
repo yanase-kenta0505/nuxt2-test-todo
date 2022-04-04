@@ -56,8 +56,8 @@
                 :disabled="!todo.selected || todo.done"
                 :value="todo.taskName"
                 class="red--text"
-                @blur="changeTaskName(index, $event)"
-                @keydown.enter="changeTaskName(index, $event)"
+                @blur="changeTaskName(todo.id, $event)"
+                @keydown.enter="changeTaskName(todo.id, $event)"
               />
             </v-list-item-content>
             <v-list-item-icon>
@@ -69,7 +69,7 @@
         </v-list-item-group>
       </v-list>
     </v-card>
-    <h3 class="text-center mt-10 mx-auto" style="width:50%;">{{ filteredTodos }}</h3>
+    <h3>{{ filteredTodos }}</h3>
   </v-app>
 </template>
 
@@ -87,7 +87,6 @@ export default {
       todos: [],
       toggleStatus: "All",
       newTaskName: "",
-
     };
   },
 
@@ -126,6 +125,13 @@ export default {
     },
   },
 
+  mounted() {
+    if (!JSON.parse(localStorage.getItem('todos'))) return
+    const localstrage = JSON.parse(localStorage.getItem('todos'))
+    if (!localstrage.todos.todos) return
+    this.$store.dispatch("todos/initTodos", localstrage.todos.todos);
+  },
+
   methods: {
     changeTodoDone(id) {
       this.$store.dispatch("todos/changeTodoDone", id);
@@ -146,13 +152,12 @@ export default {
       if (this.todos[index].done) return;
       this.todos[index].selected = !this.todos[index].selected;
     },
-    changeTaskName(index, e) {
-      if (e.target.value === "") {
-        this.todos.splice(index, 1);
-      } else {
-        this.todos[index].taskName = e.target.value;
-        this.todos[index].selected = !this.todos[index].selected;
-      }
+    changeTaskName(id, e) {
+      this.$store.dispatch('todos/changeTaskName', {
+        id: id,
+        newTaskName: e.target.value
+      });
+     
     },
     allClear() {
       const newTodos = this.todos.filter((todo) => !todo.done);

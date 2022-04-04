@@ -28,6 +28,7 @@ export default {
   props: {
     newTaskName: {
       type: String,
+
     },
   },
   data() {
@@ -35,6 +36,28 @@ export default {
       id: 1,
     };
   },
+
+  computed: {
+    storeId() {
+      return this.$store.getters["todos/todos"].length + 1;
+    }
+  },
+  //  computed: {
+  //   id: {
+  //     get() {
+  //       return this.$store.getters["todos/todos"].length + 1;
+  //     },
+  //     set(val) {
+  //       console.log(val)
+  //     }
+  //   }
+  // },
+  watch: {
+    storeId() {
+      this.id = this.storeId
+    }
+  },
+
   methods: {
     reflectionTaskName(e) {
       this.$emit("reflectionTaskName", e);
