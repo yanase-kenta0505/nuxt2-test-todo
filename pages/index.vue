@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <Title>
+    <title-area>
       <template #yanase>
-        <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
+      <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
       </template>
-    </Title>
-    <AddTaskField
+    </title-area>
+    <add-task-field
       @reflectionTaskName="reflectionTaskName"
       @allClear="allClear"
       @addTodo="addTodo"
@@ -61,27 +61,19 @@
               />
             </v-list-item-content>
             <v-list-item-icon>
-              <EditBtn @editTaskName="editTaskName(index)" />
-              <DeleteBtn @deleteItem="deleteItem(index)" />
+              <edit-btn @editTaskName="editTaskName(index)" />
+              <delete-btn @deleteItem="deleteItem(index)" />
             </v-list-item-icon>
           </v-list-item>
           <v-divider />
         </v-list-item-group>
       </v-list>
     </v-card>
-    <h3>{{ filteredTodos }}</h3>
   </v-app>
 </template>
 
 <script >
-import AddTaskField from "../components/addTaskField.vue";
-import DeleteBtn from "../components/deleteBtn.vue";
-import EditBtn from "../components/editBtn.vue";
-import Title from "../components/title.vue";
-
 export default {
-  components: { AddTaskField, DeleteBtn, EditBtn, Title },
-
   data() {
     return {
       todos: [],
@@ -157,7 +149,7 @@ export default {
         id: id,
         newTaskName: e.target.value
       });
-     
+
     },
     allClear() {
       // const newTodos = this.todos.filter((todo) => !todo.done);
