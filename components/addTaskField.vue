@@ -1,34 +1,29 @@
 <template>
-  <v-app>
-    <v-card width="600px" class="mx-auto mt-10 d-flex" tile>
-      <AllClearBtn @allClear="allClear" class="align-self-center ml-2" />
-      <v-text-field
-        :value="newTaskName"
-        @input="reflectionTaskName"
-        @keydown.enter="addTodo"
-        autofocus
-        autocomplete="off"
-        clearable
-        color="primary"
-        hide-details="auto"
-        maxlength="20"
-        placeholder="What needs to be done?"
-        solo
-        flat
-        height="70px"
-      ></v-text-field>
-    </v-card>
-  </v-app>
+  <v-card width="600px" class="mx-auto mt-10 d-flex" tile>
+    <all-clear-btn @all-clear="allClear" class="align-self-center ml-2" />
+    <v-text-field
+      :value="newTaskName"
+      @input="reflectionTaskName"
+      @keydown.enter="addTodo"
+      autofocus
+      autocomplete="off"
+      clearable
+      color="primary"
+      hide-details="auto"
+      maxlength="20"
+      placeholder="What needs to be done?"
+      solo
+      flat
+      height="70px"
+    ></v-text-field>
+  </v-card>
 </template>
 
 <script>
-import AllClearBtn from "./allClearBtn.vue";
 export default {
-  components: { AllClearBtn },
   props: {
     newTaskName: {
       type: String,
-
     },
   },
   watch: {
