@@ -1,75 +1,57 @@
 <template>
-  <v-app>
-    <title-area>
-      <template #yanase>
-      <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
-      </template>
-    </title-area>
-    <add-task-field
-      @reflectionTaskName="reflectionTaskName"
-      @allClear="allClear"
-      @addTodo="addTodo"
-      :newTaskName="newTaskName"
-    />
+  <amplify-authenticator>
+    <v-app>
+      <title-area>
+        <template #yanase>
+          <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
+        </template>
+      </title-area>
+      <add-task-field @reflectionTaskName="reflectionTaskName" @all-clear="allClear" @addTodo="addTodo"
+        :newTaskName="newTaskName" />
 
-    <v-card class="mx-auto mt-10" width="600px" tile>
-      <v-list dense flat>
-        <v-subheader class="mb-3 d-flex justify-space-between">
-          <div class="text-h6 blue--text ml-2">
-            <p class="ma-0">{{ todos | findDoneItemLength }} Items Left</p>
-          </div>
-          <div>
-            <v-btn-toggle
-              tile
-              color="blue align-self-center"
-              group
-              v-model="toggleStatus"
-              mandatory
-            >
-              <v-btn value="All">All</v-btn>
-              <v-btn value="Active">Active</v-btn>
-              <v-btn value="Completed">Completed</v-btn>
-            </v-btn-toggle>
-          </div>
-        </v-subheader>
-        <v-divider />
-
-        <v-list-item-group v-for="(todo, index) in filteredTodos" :key="todo.id">
-          <v-list-item class="pt-3 pb-3">
-            <v-list-item-action>
-              <v-checkbox
-                :input-value="todo.done"
-                :disabled="todo.selected"
-                @click="changeTodoDone(todo.id)"
-              />
-            </v-list-item-action>
-            <v-list-item-content :class="[todo.done ? 'text-decoration-line-through' : '']">
-              <v-text-field
-                id="taskName"
-                autocomplete="off"
-                hide-details="auto"
-                maxlength="20"
-                solo
-                flat
-                height="30px"
-                :outlined="todo.selected && !todo.done"
-                :disabled="!todo.selected || todo.done"
-                :value="todo.taskName"
-                class="red--text"
-                @blur="changeTaskName(todo.id, $event)"
-                @keydown.enter="changeTaskName(todo.id, $event)"
-              />
-            </v-list-item-content>
-            <v-list-item-icon>
-              <edit-btn @editTaskName="editTaskName(index)" />
-              <delete-btn @deleteItem="deleteItem(index)" />
-            </v-list-item-icon>
-          </v-list-item>
+      <v-card class="mx-auto mt-10" width="600px" tile>
+        <v-list dense flat>
+          <v-subheader class="mb-3 d-flex justify-space-between">
+            <div class="text-h6 blue--text ml-2">
+              <p class="ma-0">{{ todos | findDoneItemLength }} Items Left</p>
+            </div>
+            <div>
+              <v-btn-toggle tile color="blue align-self-center" group v-model="toggleStatus" mandatory>
+                <v-btn value="All">All</v-btn>
+                <v-btn value="Active">Active</v-btn>
+                <v-btn value="Completed">Completed</v-btn>
+              </v-btn-toggle>
+            </div>
+          </v-subheader>
           <v-divider />
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-  </v-app>
+
+          <v-list-item-group v-for="(todo, index) in filteredTodos" :key="todo.id">
+            <v-list-item class="pt-3 pb-3">
+              <v-list-item-action>
+                <v-checkbox :input-value="todo.done" :disabled="todo.selected" @click="changeTodoDone(todo.id)" />
+              </v-list-item-action>
+              <v-list-item-content :class="[todo.done ? 'text-decoration-line-through' : '']">
+                <v-text-field id="taskName" autocomplete="off" hide-details="auto" maxlength="20" solo flat
+                  height="30px" :outlined="todo.selected && !todo.done" :disabled="!todo.selected || todo.done"
+                  :value="todo.taskName" class="red--text" @blur="changeTaskName(todo.id, $event)"
+                  @keydown.enter="changeTaskName(todo.id, $event)" />
+              </v-list-item-content>
+              <v-list-item-icon>
+                <edit-btn @editTaskName="editTaskName(index)" />
+                <delete-btn @deleteItem="deleteItem(index)" />
+              </v-list-item-icon>
+            </v-list-item>
+            <v-divider />
+          </v-list-item-group>
+        </v-list>
+
+      </v-card>
+      <v-card width="600px" class="mx-auto mt-5">
+
+        <amplify-sign-out />
+      </v-card>
+    </v-app>
+  </amplify-authenticator>
 </template>
 
 <script >
@@ -165,7 +147,7 @@ export default {
   min-height: initial;
 }
 
-::v-deep .v-text-field > .v-input__control > .v-input__slot:before {
+::v-deep .v-text-field>.v-input__control>.v-input__slot:before {
   border: none;
 }
 
