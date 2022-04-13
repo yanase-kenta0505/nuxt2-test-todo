@@ -44,7 +44,7 @@ export default {
       });
     },
     allClear() {
-      this.$emit("allClear");
+      this.$emit("all-clear");
     },
   },
 };
