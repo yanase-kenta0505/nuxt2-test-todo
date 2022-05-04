@@ -33,10 +33,10 @@ export default {
   },
   methods: {
     reflectionTaskName(e) {
-      this.$emit("reflectionTaskName", e);
+      this.$emit("reflection-taskname", e);
     },
     addTodo() {
-      this.$emit("addTodo", {
+      this.$emit("add-todo", {
         id: new Date().getTime().toString(16),
         taskName: this.newTaskName,
         selected: false,
