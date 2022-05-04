@@ -1,5 +1,4 @@
 <template>
-  <amplify-authenticator>
     <div>
       <h1>TodoApp</h1>
       <v-text-field v-model="name" label="Name"></v-text-field>
@@ -9,8 +8,6 @@
         <li v-for="todo in todos" :key="todo.id">{{ todo.name }} : {{ todo.description }}</li>
       </ul>
     </div>
-    <amplify-sign-out></amplify-sign-out>
-  </amplify-authenticator>
 </template>
 
 <script>
