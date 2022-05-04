@@ -49,3 +49,9 @@ export default {
   },
 };
 </script>
+
+<style>
+ .v-input__slot{
+  width: 95% !important;
+}
+</style>

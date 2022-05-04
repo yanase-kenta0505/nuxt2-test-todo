@@ -188,4 +188,8 @@ export default {
   font-size: 20px !important;
   color: blue !important;
 }
+
+.v-list-item__content{
+  overflow: initial;
+}
 </style>
