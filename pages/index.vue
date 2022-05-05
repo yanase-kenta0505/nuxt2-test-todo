@@ -7,7 +7,7 @@
         </template>
       </title-area>
       <add-task-field
-        @reflection-taskname="reflectionTaskName"
+        @reflection-taskname="newTaskName = $event"
         @all-clear="allClear"
         @add-todo="addTodo"
         :newTaskName="newTaskName"
@@ -65,8 +65,8 @@
                 />
               </v-list-item-content>
               <v-list-item-icon>
-                <edit-btn @editTaskName="editTaskName(index)" />
-                <delete-btn @deleteItem="deleteItem(index)" />
+                <edit-btn @edit-task-name="editTaskName(index)" />
+                <delete-btn @delete-item="deleteItem(index)" />
               </v-list-item-icon>
             </v-list-item>
             <v-divider />
@@ -136,16 +136,13 @@ export default {
     changeTodoDone(id) {
       this.$store.dispatch("todos/changeTodoDone", id);
     },
-    reflectionTaskName(e) {
-      this.newTaskName = e;
-    },
+    
     addTodo(newTask) {
       if (newTask.taskName === "") return;
       this.$store.dispatch("todos/addTodo", newTask);
       this.newTaskName = "";
     },
     deleteItem(index) {
-      // this.todos.splice(index, 1);
       this.$store.dispatch("todos/deleteTodos", index);
     },
     editTaskName(index) {
@@ -159,8 +156,6 @@ export default {
       });
     },
     allClear() {
-      // const newTodos = this.todos.filter((todo) => !todo.done);
-      // this.todos = newTodos;
       this.$store.dispatch("todos/allClear");
     },
   },
