@@ -3,7 +3,7 @@
     <all-clear-btn @all-clear="allClear" class="align-self-center ml-2" />
     <v-text-field
       :value="newTaskName"
-      @input="reflectionTaskName"
+      @input="$emit('reflection-taskname',$event)"
       @keydown.enter="addTodo"
       autofocus
       autocomplete="off"
@@ -32,9 +32,6 @@ export default {
     }
   },
   methods: {
-    reflectionTaskName(e) {
-      this.$emit("reflection-taskname", e);
-    },
     addTodo() {
       this.$emit("add-todo", {
         id: new Date().getTime().toString(16),

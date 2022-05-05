@@ -1,15 +1,6 @@
 <template>
-  <v-btn icon class="mr-5" @click="editTaskName">
+  <v-btn icon class="mr-5" @click="$emit('edit-task-name')">
     <v-icon class="mx-auto">mdi-pencil</v-icon>
   </v-btn>
 </template>
 
-<script>
-export default {
-  methods: {
-    editTaskName() {
-      this.$emit('editTaskName')
-    }
-  },
-};
-</script>
