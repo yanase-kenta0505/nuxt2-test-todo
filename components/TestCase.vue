@@ -1,16 +1,21 @@
 <template>
   <div>
-    <h3>hello</h3>
-    <button>foo</button>
+    <h3>{{Mes}}</h3>
+    <v-btn @click="chnageMes">change</v-btn>
   </div>
 </template>
 
-<script >
-import { defineComponent } from '@vue/composition-api'
+<script>
+import { defineComponent,ref } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-    setup() {
-        
-    },
+  setup() {
+    const Mes = ref('hello')
+    const chnageMes = () =>{
+      console.log('hello')
+    }
+  return{Mes,chnageMes}
+  },
+
 })
 </script>
