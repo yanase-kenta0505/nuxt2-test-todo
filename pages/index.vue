@@ -76,12 +76,18 @@
       <v-card width="600px" class="mx-auto mt-5">
         <amplify-sign-out />
       </v-card>
+
+
+
+      <test-case/>
     </v-app>
   </amplify-authenticator>
 </template>
 
 <script>
+import TestCase from '../components/TestCase.vue';
 export default {
+  components: { TestCase },
   data() {
     return {
       todos: [],
@@ -136,7 +142,7 @@ export default {
     changeTodoDone(id) {
       this.$store.dispatch("todos/changeTodoDone", id);
     },
-    
+
     addTodo(newTask) {
       if (newTask.taskName === "") return;
       this.$store.dispatch("todos/addTodo", newTask);
@@ -184,7 +190,7 @@ export default {
   color: blue !important;
 }
 
-.v-list-item__content{
+.v-list-item__content {
   overflow: initial;
 }
 </style>
