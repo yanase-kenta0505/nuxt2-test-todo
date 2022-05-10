@@ -1,20 +1,42 @@
 <template>
   <div>
-    <h3>{{Mes}}</h3>
+    <h3>{{mes}}</h3>
     <v-btn @click="changeMes">change</v-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent,ref } from '@nuxtjs/composition-api'
+import { defineComponent,ref, PropType } from '@nuxtjs/composition-api'
+enum Sex {
+  Male = 'Male',
+  Female = 'Female'
+}
 
+interface Human {
+  name: string,
+  age: number,
+  sex: Sex
+}
 export default defineComponent({
-  setup() {
-    const Mes = ref<string>('hello')
-    const changeMes = () =>{
-      Mes.value = 'foo'
+  props: {
+    message: {
+      type: Boolean,
+      required: true
+    },
+    person: {
+      type: Object as PropType<Human>,
+      required: true
     }
-  return{Mes,changeMes}
+  },
+  setup() {
+    const mes = ref<string>()
+    const changeMes = () =>{
+      mes.value = 'jjj'
+    }
+    return {
+      mes,
+      changeMes
+    }
   },
 
 })
