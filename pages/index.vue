@@ -77,15 +77,13 @@
         <amplify-sign-out />
       </v-card>
 
-
-
-      <test-case/>
+      <test-case />
     </v-app>
   </amplify-authenticator>
 </template>
 
 <script>
-import TestCase from '../components/TestCase.vue';
+import TestCase from "../components/TestCase.vue";
 export default {
   components: { TestCase },
   data() {
