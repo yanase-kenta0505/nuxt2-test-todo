@@ -1,5 +1,12 @@
 <template>
   <div>
+    
+  </div>
+</template>
+
+
+<!-- <template>
+  <div>
     <h3>{{mes}}</h3>
     <v-btn @click="changeMes">change</v-btn>
   </div>
@@ -40,4 +47,4 @@ export default defineComponent({
   },
 
 })
-</script>
+</script> -->
