@@ -16,7 +16,7 @@
         <v-list dense flat>
           <v-subheader class="mb-3 d-flex justify-space-between">
             <div class="text-h6 blue--text ml-2">
-              <p class="ma-0">{{ todos | findDoneItemLength }} Items Left</p>
+              <p class="ma-0">{{ findDoneItemLength }} Items Left</p>
             </div>
             <div>
               <v-btn-toggle
@@ -82,88 +82,131 @@
   </amplify-authenticator>
 </template>
 
-<script>
-import TestCase from "../components/TestCase.vue";
-export default {
-  components: { TestCase },
-  data() {
+<script lang="ts">
+import {
+  defineComponent,
+  ref,
+  computed,
+  useStore,
+  onMounted,
+  watch,
+} from "@nuxtjs/composition-api";
+
+enum Status {
+  All = "All",
+  Active = "Active",
+  Completed = "Completed",
+}
+
+// todos{
+//   todos[
+//     {
+//       id:~,
+//       taskName:~,
+//       selected:~,
+//       done:~
+
+//     }
+//   ]
+// }
+
+interface TodosType {
+  id: string;
+  taskName: string;
+  selected: boolean;
+  done: boolean;
+}
+
+
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+
+    onMounted(() => {
+      if (!JSON.parse(localStorage.getItem("todos") || "")) return;
+      const localstrage = JSON.parse(localStorage.getItem("todos") || "") ;
+      if (localstrage == null) return;
+      if (!localstrage.todos.todos) return;
+      store.dispatch("todos/initTodos", localstrage.todos.todos);
+    });
+
+    const todos = ref<TodosType[]>([]);
+    const toggleStatus = ref(Status.All);
+    const newTaskName = ref("");
+
+    const storeTodos = computed(() => store.getters["todos/todos"]);
+
+    const filteredTodos = computed(() => {
+      if (toggleStatus.value === Status.Active) {
+        return todos.value.filter((todo) => todo.done === false);
+      } else if (toggleStatus.value === Status.Completed) {
+        return todos.value.filter((todo) => todo.done === true);
+      } else return todos.value;
+    });
+
+    watch(
+      storeTodos,
+      () => {
+        todos.value = JSON.parse(JSON.stringify(storeTodos.value));
+      },
+      { deep: true }
+    );
+
+    const findDoneItemLength = computed(() => {
+      const findDoneItem = todos.value.filter((todo) => !todo.done);
+      return findDoneItem.length;
+    });
+
+    const changeTodoDone = (id: string) => {
+      store.dispatch("todos/changeTodoDone", id);
+    };
+
+    const addTodo = (newTask: TodosType) => {
+      if (newTask.taskName === "") return;
+      store.dispatch("todos/addTodo", newTask);
+      newTaskName.value = "";
+    };
+
+    const deleteItem = (index: number) => {
+      store.dispatch("todos/deleteTodos", index);
+    };
+
+    const editTaskName = (index: number) => {
+      if (todos.value[index].done) return;
+      todos.value[index].selected = !todos.value[index].selected;
+    };
+
+    const changeTaskName = (id: string, e: Event) => {
+      if (e.target instanceof HTMLInputElement) {
+        store.dispatch("todos/changeTaskName", {
+          id: id,
+          newTaskName: e.target.value,
+        });
+      }
+    };
+
+    const allClear = () => {
+      store.dispatch("todos/allClear");
+    };
+
     return {
-      todos: [],
-      toggleStatus: "All",
-      newTaskName: "",
+      store,
+      todos,
+      toggleStatus,
+      newTaskName,
+      storeTodos,
+      filteredTodos,
+      findDoneItemLength,
+      changeTodoDone,
+      addTodo,
+      deleteItem,
+      editTaskName,
+      changeTaskName,
+      allClear,
     };
   },
-
-  computed: {
-    storeTodos() {
-      //以下の方法だとオブジェクト内のプロパティの変更を検知してくれない
-      // const todos = JSON.parse(
-      //   JSON.stringify(this.$store.getters["todos/todos"])
-      // );
-      // return todos;
-      return this.$store.getters["todos/todos"];
-    },
-
-    filteredTodos() {
-      if (this.toggleStatus === "Active") {
-        return this.todos.filter((todo) => todo.done === false);
-      } else if (this.toggleStatus === "Completed") {
-        return this.todos.filter((todo) => todo.done === true);
-      } else return this.todos;
-    },
-  },
-
-  watch: {
-    storeTodos: {
-      handler() {
-        this.todos = JSON.parse(JSON.stringify(this.storeTodos));
-      },
-      deep: true,
-    },
-  },
-
-  filters: {
-    findDoneItemLength(todos) {
-      const findDoneItem = todos.filter((todo) => !todo.done);
-      return findDoneItem.length;
-    },
-  },
-
-  mounted() {
-    if (!JSON.parse(localStorage.getItem("todos"))) return;
-    const localstrage = JSON.parse(localStorage.getItem("todos"));
-    if (!localstrage.todos.todos) return;
-    this.$store.dispatch("todos/initTodos", localstrage.todos.todos);
-  },
-
-  methods: {
-    changeTodoDone(id) {
-      this.$store.dispatch("todos/changeTodoDone", id);
-    },
-
-    addTodo(newTask) {
-      if (newTask.taskName === "") return;
-      this.$store.dispatch("todos/addTodo", newTask);
-      this.newTaskName = "";
-    },
-    deleteItem(index) {
-      this.$store.dispatch("todos/deleteTodos", index);
-    },
-    editTaskName(index) {
-      if (this.todos[index].done) return;
-      this.todos[index].selected = !this.todos[index].selected;
-    },
-    changeTaskName(id, e) {
-      this.$store.dispatch("todos/changeTaskName", {
-        id: id,
-        newTaskName: e.target.value,
-      });
-    },
-    allClear() {
-      this.$store.dispatch("todos/allClear");
-    },
-  },
-};
+});
 </script>
 
 <style scoped>

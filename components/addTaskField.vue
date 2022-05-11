@@ -3,7 +3,7 @@
     <all-clear-btn @all-clear="allClear" class="align-self-center ml-2" />
     <v-text-field
       :value="newTaskName"
-      @input="$emit('reflectio', $event)"
+      @input="$emit('reflection-taskname', $event)"
       @keydown.enter="addTodo"
       autofocus
       autocomplete="off"
