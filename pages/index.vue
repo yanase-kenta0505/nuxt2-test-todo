@@ -2,9 +2,7 @@
   <amplify-authenticator>
     <v-app>
       <title-area>
-        <template #yanase>
-          <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
-        </template>
+        <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
       </title-area>
       <add-task-field
         @reflection-taskname="newTaskName = $event"
