@@ -1,9 +1,9 @@
 export const state = () => ({
-  todos: [],
+  storeTodos: [],
 });
 export const getters = {
-  todos(state) {
-    return state.todos;
+  storeTodos(state) {
+    return state.storeTodos;
   },
 };
 export const actions = {
@@ -28,31 +28,31 @@ export const actions = {
 };
 export const mutations = {
   addTodo(state, newTodoItem) {
-    state.todos.push(newTodoItem);
+    state.storeTodos.push(newTodoItem);
   },
   deleteTodos(state, index) {
-    state.todos.splice(index, 1);
+    state.storeTodos.splice(index, 1);
   },
   changeTodoDone(state, id) {
     // state.todos[index].done = !state.todos[index].done;
-    const changeItem = state.todos.find((todo) => todo.id === id);
+    const changeItem = state.storeTodos.find((todo) => todo.id === id);
     changeItem.done = !changeItem.done;
   },
   initTodos(state, initialTodos) {
-    state.todos = initialTodos;
+    state.storeTodos = initialTodos;
   },
   changeTaskName(state, item) {
-    const selectedIndex = state.todos.findIndex((todo) => todo.id === item.id);
+    const selectedIndex = state.storeTodos.findIndex((todo) => todo.id === item.id);
 
     if (item.newTaskName === "") {
-      state.todos.splice(selectedIndex, 1);
+      state.storeTodos.splice(selectedIndex, 1);
     } else {
-      state.todos[selectedIndex].taskName = item.newTaskName;
-      state.todos[selectedIndex].selected = false;
+      state.storeTodos[selectedIndex].taskName = item.newTaskName;
+      state.storeTodos[selectedIndex].selected = false;
     }
   },
   allClear(state) {
-    const newTodos = state.todos.filter((todo) => todo.done === false);
-    state.todos = newTodos;
+    const newTodos = state.storeTodos.filter((todo) => todo.done === false);
+    state.storeTodos = newTodos;
   },
 };
