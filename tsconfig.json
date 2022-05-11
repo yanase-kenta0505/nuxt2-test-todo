@@ -1,4 +1,7 @@
 {
+  "vueCompilerOptions":{
+    "experimentalDisableTemplateSupport":true
+    },
     "compilerOptions": {
       "target": "ES2018",
       "module": "ESNext",
@@ -24,7 +27,8 @@
       },
       "types": [
         "@types/node",
-        "@nuxt/types"
+        "@nuxt/types",
+        "@nuxtjs/vuetify"
       ]
     },
     "exclude": [
