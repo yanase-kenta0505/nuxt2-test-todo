@@ -76,7 +76,6 @@
       <v-card width="600px" class="mx-auto mt-5">
         <amplify-sign-out />
       </v-card>
-
       <test-case />
     </v-app>
   </amplify-authenticator>
@@ -98,18 +97,6 @@ enum Status {
   Completed = "Completed",
 }
 
-// todos{
-//   todos[
-//     {
-//       id:~,
-//       taskName:~,
-//       selected:~,
-//       done:~
-
-//     }
-//   ]
-// }
-
 interface TodosType {
   id: string;
   taskName: string;
@@ -117,25 +104,40 @@ interface TodosType {
   done: boolean;
 }
 
+interface LocalTodos {
+  todos: {
+    storeTodos: TodosType[];
+  };
+}
 
+// interface LocalTodos {
+//   todos: {
+//     storeTodos: [
+//       { id: string; taskName: string; selected: boolean; done: boolean }
+//     ];
+//   };
+// }
 
 export default defineComponent({
   setup() {
     const store = useStore();
 
     onMounted(() => {
-      if (!JSON.parse(localStorage.getItem("todos") || "")) return;
-      const localstrage = JSON.parse(localStorage.getItem("todos") || "") ;
+      if (!JSON.parse(localStorage.getItem("LocalTodos") || "" || "null"))
+        return;
+      const localstrage = JSON.parse(
+        localStorage.getItem("LocalTodos") || ""
+      ) as LocalTodos;
       if (localstrage == null) return;
-      if (!localstrage.todos.todos) return;
-      store.dispatch("todos/initTodos", localstrage.todos.todos);
+      if (!localstrage.todos.storeTodos) return;
+      store.dispatch("todos/initTodos", localstrage.todos.storeTodos);
     });
 
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
     const newTaskName = ref("");
 
-    const storeTodos = computed(() => store.getters["todos/todos"]);
+    const storeTodos = computed(() => store.getters["todos/storeTodos"]);
 
     const filteredTodos = computed(() => {
       if (toggleStatus.value === Status.Active) {
