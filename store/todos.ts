@@ -21,7 +21,7 @@ export const state = () => ({
 });
 
 export const getters = getterTree(state, {
-  storeTodos(state) {
+  getterTodos(state) {
     return state.storeTodos;
   },
 });
