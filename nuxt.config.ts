@@ -43,7 +43,9 @@ const config: NuxtConfig = {
     "@nuxtjs/vuetify",
     "@nuxtjs/composition-api/module",
     "@nuxt/typescript-build",
+    'nuxt-typed-vuex'
   ],
+
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
