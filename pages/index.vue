@@ -2,7 +2,7 @@
   <amplify-authenticator>
     <v-app>
       <title-area>
-        <p class="text-h3 text-center ma-0">YANASE's TODO LIST</p>
+        <p class="text-h3 text-center ma-0">YANASE TODO LIST</p>
       </title-area>
       <add-task-field
         @reflection-taskname="newTaskName = $event"
@@ -84,10 +84,11 @@ import {
   defineComponent,
   ref,
   computed,
-  useStore,
   onMounted,
   watch,
 } from "@nuxtjs/composition-api";
+
+import { useAccessor } from "../hooks.ts/useAccessor";
 
 enum Status {
   All = "All",
@@ -108,17 +109,11 @@ interface LocalTodos {
   };
 }
 
-// interface LocalTodos {
-//   todos: {
-//     storeTodos: [
-//       { id: string; taskName: string; selected: boolean; done: boolean }
-//     ];
-//   };
-// }
-
 export default defineComponent({
   setup() {
-    const store = useStore();
+    const accessor = useAccessor();
+
+    console.log(accessor);
 
     onMounted(() => {
       if (!JSON.parse(localStorage.getItem("LocalTodos") || "" || "null"))
@@ -128,14 +123,14 @@ export default defineComponent({
       ) as LocalTodos;
       if (localstrage == null) return;
       if (!localstrage.todos.storeTodos) return;
-      store.dispatch("todos/initTodos", localstrage.todos.storeTodos);
+      accessor.todos.initTodos(localstrage.todos.storeTodos);
     });
 
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
     const newTaskName = ref("");
 
-    const storeTodos = computed(() => store.getters["todos/storeTodos"]);
+    const storeTodos = computed(() => accessor.todos.getterTodos);
 
     const filteredTodos = computed(() => {
       if (toggleStatus.value === Status.Active) {
@@ -159,17 +154,17 @@ export default defineComponent({
     });
 
     const changeTodoDone = (id: string) => {
-      store.dispatch("todos/changeTodoDone", id);
+      accessor.todos.changeTodoDone(id);
     };
 
     const addTodo = (newTask: TodosType) => {
       if (newTask.taskName === "") return;
-      store.dispatch("todos/addTodo", newTask);
+      accessor.todos.addTodo(newTask);
       newTaskName.value = "";
     };
 
     const deleteItem = (index: number) => {
-      store.dispatch("todos/deleteTodos", index);
+      accessor.todos.deleteTodos(index);
     };
 
     const editTaskName = (index: number) => {
@@ -179,7 +174,7 @@ export default defineComponent({
 
     const changeTaskName = (id: string, e: Event) => {
       if (e.target instanceof HTMLInputElement) {
-        store.dispatch("todos/changeTaskName", {
+        accessor.todos.changeTaskName({
           id: id,
           newTaskName: e.target.value,
         });
@@ -187,11 +182,10 @@ export default defineComponent({
     };
 
     const allClear = () => {
-      store.dispatch("todos/allClear");
+      accessor.todos.allClear();
     };
 
     return {
-      store,
       todos,
       toggleStatus,
       newTaskName,
