@@ -83,9 +83,3 @@ export const actions = actionTree(
   }
 );
 
-export const accessorType = getAccessorType({
-  state,
-  getters,
-  mutations,
-  actions,
-});
