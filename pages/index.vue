@@ -89,34 +89,13 @@ import {
 
 import { useAccessor } from "~/hooks/useAccessor";
 
-//タスク絞り込みの型
-enum Status {
-  All = "All",
-  Active = "Active",
-  Completed = "Completed",
-}
-
-//タスク（TODO）の型
-interface TodosType {
-  id: string;
-  taskName: string;
-  selected: boolean;
-  done: boolean;
-}
-
-//全てのタスク（TODOS）の型
-interface LocalTodos {
-  todos: {
-    storeTodos: TodosType[];
-  };
-}
+import { Status, TodosType, LocalTodos } from "~/type/TodosType";
 
 export default defineComponent({
   setup() {
-
     const accessor = useAccessor();
 
-  //アプリ起動時にlocalstorageにタスクがあれば画面に表示する
+    //アプリ起動時にlocalstorageにタスクがあれば画面に表示する
     onMounted(() => {
       if (!JSON.parse(localStorage.getItem("LocalTodos") || "")) return;
       const localstrage = JSON.parse(
@@ -127,16 +106,15 @@ export default defineComponent({
       accessor.todos.initTodos(localstrage.todos.storeTodos);
     });
 
-  //v-text-fieldに入力された値が反映される
+    //v-text-fieldに入力された値が反映される
     const newTaskName = ref("");
-    
+
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
 
-  
     const storeTodos = computed(() => accessor.todos.getterTodos);
 
-  //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更
+    //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更
     const filteredTodos = computed(() => {
       if (toggleStatus.value === Status.Active) {
         return todos.value.filter((todo) => todo.done === false);
@@ -145,8 +123,7 @@ export default defineComponent({
       } else return todos.value;
     });
 
-  
-  //storeのgetterTodosに変更（追加、削除など）があるたびに検知してtodosを変更する
+    //storeのgetterTodosに変更（追加、削除など）があるたびに検知してtodosを変更する
     watch(
       storeTodos,
       () => {
@@ -156,12 +133,11 @@ export default defineComponent({
       { deep: true }
     );
 
-  //完了していないタスクの個数を集計する
+    //完了していないタスクの個数を集計する
     const findDoneItemLength = computed(() => {
       const findDoneItem = todos.value.filter((todo) => !todo.done);
       return findDoneItem.length;
     });
-
 
     const changeTodoDone = (id: string) => {
       accessor.todos.changeTodoDone(id);
