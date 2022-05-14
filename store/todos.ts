@@ -1,19 +1,5 @@
-import {
-  getterTree,
-  mutationTree,
-  actionTree,
-} from "typed-vuex";
-
-interface TodosType {
-  id: string;
-  taskName: string;
-  selected: boolean;
-  done: boolean;
-}
-interface Item {
-  id: string;
-  newTaskName: string;
-}
+import { getterTree, mutationTree, actionTree } from "typed-vuex";
+import { TodosType, Item } from "~/type/TodosType";
 
 export const state = () => ({
   storeTodos: [] as TodosType[],
@@ -81,4 +67,3 @@ export const actions = actionTree(
     },
   }
 );
-
