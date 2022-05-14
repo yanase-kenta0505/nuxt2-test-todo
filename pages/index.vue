@@ -74,7 +74,6 @@
       <v-card width="600px" class="mx-auto mt-5">
         <amplify-sign-out />
       </v-card>
-      <test-case />
     </v-app>
   </amplify-authenticator>
 </template>
@@ -88,14 +87,16 @@ import {
   watch,
 } from "@nuxtjs/composition-api";
 
-import { useAccessor } from "../hooks.ts/useAccessor";
+import { useAccessor } from "~/hooks/useAccessor";
 
+//タスク絞り込みの型
 enum Status {
   All = "All",
   Active = "Active",
   Completed = "Completed",
 }
 
+//タスク（TODO）の型
 interface TodosType {
   id: string;
   taskName: string;
@@ -103,6 +104,7 @@ interface TodosType {
   done: boolean;
 }
 
+//全てのタスク（TODOS）の型
 interface LocalTodos {
   todos: {
     storeTodos: TodosType[];
@@ -111,13 +113,12 @@ interface LocalTodos {
 
 export default defineComponent({
   setup() {
+
     const accessor = useAccessor();
 
-    console.log(accessor);
-
+  //アプリ起動時にlocalstorageにタスクがあれば画面に表示する
     onMounted(() => {
-      if (!JSON.parse(localStorage.getItem("LocalTodos") || "" || "null"))
-        return;
+      if (!JSON.parse(localStorage.getItem("LocalTodos") || "")) return;
       const localstrage = JSON.parse(
         localStorage.getItem("LocalTodos") || ""
       ) as LocalTodos;
@@ -126,12 +127,16 @@ export default defineComponent({
       accessor.todos.initTodos(localstrage.todos.storeTodos);
     });
 
+  //v-text-fieldに入力された値が反映される
+    const newTaskName = ref("");
+    
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
-    const newTaskName = ref("");
 
+  
     const storeTodos = computed(() => accessor.todos.getterTodos);
 
+  //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更
     const filteredTodos = computed(() => {
       if (toggleStatus.value === Status.Active) {
         return todos.value.filter((todo) => todo.done === false);
@@ -140,18 +145,23 @@ export default defineComponent({
       } else return todos.value;
     });
 
+  
+  //storeのgetterTodosに変更（追加、削除など）があるたびに検知してtodosを変更する
     watch(
       storeTodos,
       () => {
         todos.value = JSON.parse(JSON.stringify(storeTodos.value));
       },
+      //タスク（todo）の中のオブジェクト（done）などの変更も検知できるようにdeepをtrueにする
       { deep: true }
     );
 
+  //完了していないタスクの個数を集計する
     const findDoneItemLength = computed(() => {
       const findDoneItem = todos.value.filter((todo) => !todo.done);
       return findDoneItem.length;
     });
+
 
     const changeTodoDone = (id: string) => {
       accessor.todos.changeTodoDone(id);

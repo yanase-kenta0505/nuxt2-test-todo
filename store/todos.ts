@@ -1,5 +1,4 @@
 import {
-  getAccessorType,
   getterTree,
   mutationTree,
   actionTree,
