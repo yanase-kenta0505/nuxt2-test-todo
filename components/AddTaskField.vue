@@ -23,15 +23,18 @@
 import { defineComponent } from "@nuxtjs/composition-api";
 
 export default defineComponent({
+
+
   props: {
     newTaskName: {
       type: String,
     },
   },
 
-  setup(props, context) {
+  setup(props, { emit }) {
+    
     const addTodo = () => {
-      context.emit("add-todo", {
+      emit("add-todo", {
         id: new Date().getTime().toString(16),
         taskName: props.newTaskName,
         selected: false,
@@ -40,7 +43,7 @@ export default defineComponent({
     };
 
     const allClear = () => {
-      context.emit("all-clear");
+      emit("all-clear");
     };
 
     return {
@@ -48,7 +51,6 @@ export default defineComponent({
       allClear,
     };
   },
-
 });
 </script>
 
