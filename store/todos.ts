@@ -12,22 +12,22 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
-  addTodo(state, newTodoItem: TodosType) {
+  mutationAddTodo(state, newTodoItem: TodosType) {
     state.storeTodos.push(newTodoItem);
   },
-  deleteTodos(state, index: number) {
+  mutationDeleteTodos(state, index: number) {
     state.storeTodos.splice(index, 1);
   },
-  changeTodoDone(state, id: string) {
+  mutationChangeTodoDone(state, id: string) {
     const changeItem = state.storeTodos.find((todo) => todo.id === id);
     if (changeItem === undefined) return;
     changeItem.done = !changeItem.done;
   },
-  initTodos(state, initialTodos: TodosType[]) {
+  mutationInitTodos(state, initialTodos: TodosType[]) {
     state.storeTodos = initialTodos;
   },
 
-  changeTaskName(state, item: Item) {
+  mutationChangeTaskName(state, item: Item) {
     const selectedIndex = state.storeTodos.findIndex(
       (todo) => todo.id === item.id
     );
@@ -38,7 +38,7 @@ export const mutations = mutationTree(state, {
       state.storeTodos[selectedIndex].selected = false;
     }
   },
-  allClear(state) {
+  mutationAllClear(state) {
     const newTodos = state.storeTodos.filter((todo) => todo.done === false);
     state.storeTodos = newTodos;
   },
@@ -48,22 +48,22 @@ export const actions = actionTree(
   { state, getters, mutations },
   {
     initTodos(context, initialTodos: TodosType[]): void {
-      context.commit("initTodos", initialTodos);
+      context.commit("mutationInitTodos", initialTodos);
     },
     addTodo(context, newTodoItem: TodosType): void {
-      context.commit("addTodo", newTodoItem);
+      context.commit("mutationAddTodo", newTodoItem);
     },
     deleteTodos(context, index: number): void {
-      context.commit("deleteTodos", index);
+      context.commit("mutationDeleteTodos", index);
     },
     changeTodoDone(context, id: string): void {
-      context.commit("changeTodoDone", id);
+      context.commit("mutationChangeTodoDone", id);
     },
     changeTaskName(context, item: Item): void {
-      context.commit("changeTaskName", item);
+      context.commit("mutationChangeTaskName", item);
     },
     allClear(context): void {
-      context.commit("allClear");
+      context.commit("mutationAllClear");
     },
   }
 );
