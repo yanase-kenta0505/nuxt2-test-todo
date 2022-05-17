@@ -58,6 +58,7 @@
               </v-list-item-action>
               <v-list-item-content
                 :class="[todo.done ? 'text-decoration-line-through' : '']"
+                v-bind="todo.done"
               >
                 <v-text-field
                   id="taskName"
@@ -121,10 +122,8 @@ export default defineComponent({
 
     //v-text-fieldに入力された値が反映される
     const newTaskName = ref("");
-
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
-
     const storeTodos = computed(() => accessor.todos.getterTodos);
 
     //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更

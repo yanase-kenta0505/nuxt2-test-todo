@@ -1,23 +1,23 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-nuxt2testtodo-dev-61355-authRole",
-      "UnauthRoleArn": "arn:aws:iam::642615880003:role/amplify-nuxt2testtodo-dev-61355-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::642615880003:role/amplify-nuxt2testtodo-dev-61355-authRole",
+      "AuthRoleName": "amplify-nuxttesttodo-dev-152850-authRole",
+      "UnauthRoleArn": "arn:aws:iam::642615880003:role/amplify-nuxttesttodo-dev-152850-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::642615880003:role/amplify-nuxttesttodo-dev-152850-authRole",
       "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-nuxt2testtodo-dev-61355-deployment",
-      "UnauthRoleName": "amplify-nuxt2testtodo-dev-61355-unauthRole",
-      "StackName": "amplify-nuxt2testtodo-dev-61355",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:642615880003:stack/amplify-nuxt2testtodo-dev-61355/79d88680-b5ee-11ec-a6a5-0edf9a628785",
-      "AmplifyAppId": "d5haokxx2ptyo"
+      "DeploymentBucketName": "amplify-nuxttesttodo-dev-152850-deployment",
+      "UnauthRoleName": "amplify-nuxttesttodo-dev-152850-unauthRole",
+      "StackName": "amplify-nuxttesttodo-dev-152850",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:642615880003:stack/amplify-nuxttesttodo-dev-152850/9e58f770-d5aa-11ec-b9e8-06f86c27213b",
+      "AmplifyAppId": "d1igqmsrv40zbf"
     },
     "categories": {
       "auth": {
-        "nuxt2testtodo3ece3a57": {}
+        "nuxttesttodobce1ff58": {}
       },
       "hosting": {
         "amplifyhosting": {
-          "appId": "d5haokxx2ptyo",
+          "appId": "d1igqmsrv40zbf",
           "type": "manual"
         }
       }
