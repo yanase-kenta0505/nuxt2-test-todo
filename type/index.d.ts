@@ -1,3 +1,5 @@
+
+// accessorの型を定義
 import { accessorType } from "~/store/index";
 
 declare module 'vue/types/vue' {
