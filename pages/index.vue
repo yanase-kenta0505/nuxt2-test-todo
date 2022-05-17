@@ -1,5 +1,5 @@
 <template>
-  
+  <amplify-authenticator>
     <v-app>
       <title-area>
         <!-- scoped slotを使用して子コンポーネントのデータを受け取るÏ -->
@@ -86,8 +86,10 @@
         </v-list>
       </v-card>
       <v-card width="600px" class="mx-auto mt-5">
+        <amplify-sign-out />
       </v-card>
     </v-app>
+  </amplify-authenticator>
 </template>
 
 <script lang="ts">

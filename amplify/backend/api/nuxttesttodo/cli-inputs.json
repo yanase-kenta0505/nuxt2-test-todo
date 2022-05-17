@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "nuxttesttodo",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/apex/Desktop/project/nuxt2-test-todo/amplify/backend/api/nuxttesttodo/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authnuxttesttodobce1ff58"
+    }
+  }
+}
