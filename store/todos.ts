@@ -5,20 +5,35 @@ import { getterTree, mutationTree, actionTree } from "typed-vuex";
 
 import { TodosType, Item } from "~/type/TodosType";
 
+/*
+ * TODO: このファイルを state.js, getters.js, mutations.js, actions.jsに分離する。
+ */
+
 export const state = () => ({
   storeTodos: [] as TodosType[],
 });
 
 export const getters = getterTree(state, {
+  /*
+  * TODO: このgetterはstateに直接アクセスすれば同じなので、消してもOK
+  */
   getterTodos(state) {
     return state.storeTodos;
   },
 });
 
+/*
+ * TODO: mutationsの命名ルールに従う。
+ * stateに直接代入する場合: set〜
+ * アクションがなくなる場合、もっとシンプルな命名にできる。
+ */
 export const mutations = mutationTree(state, {
   mutationAddTodo(state, newTodoItem: TodosType) {
     state.storeTodos.push(newTodoItem);
   },
+  /*
+   * TODO: 単複を統一する
+   */
   mutationDeleteTodos(state, index: number) {
     state.storeTodos.splice(index, 1);
   },
@@ -48,6 +63,9 @@ export const mutations = mutationTree(state, {
   },
 });
 
+/*
+ * TODO: ここのアクションは全てmutationを呼び出しているだけなので、全部削除する
+ */
 export const actions = actionTree(
   { state, getters, mutations },
   {

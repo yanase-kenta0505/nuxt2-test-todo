@@ -2,6 +2,14 @@ import { NuxtConfig } from "@nuxt/types";
 
 import colors from "vuetify/es5/util/colors";
 
+/*
+ * TODO: srcフォルダを有効にする。
+ * amplifyを有効にすると、リポジトリ直下にnuxtビルドとは関係ないフォルダが出現します。
+ * ビルドされて画面で使われるものと、それ以外のものが分かりにくくなります。
+ * それを解消するために、srcフォルダにビルドされて画面に送出されるコードを置く、という運用があります。
+ * components, hooks, pages, plugins, storeがsrcの下に移動します。
+ */
+
 const config: NuxtConfig = {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,

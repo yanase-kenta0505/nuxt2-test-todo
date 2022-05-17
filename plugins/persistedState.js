@@ -1,3 +1,7 @@
+/**
+ * TODO: TypeScript化する
+ */
+
 import createPersistedState from 'vuex-persistedstate'
 
 export default ({ store }) => {

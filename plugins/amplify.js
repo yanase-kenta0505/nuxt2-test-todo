@@ -1,3 +1,7 @@
+/**
+ * TODO: このファイルをTypeScript化する
+ */
+
 import Vue from "vue";
 import Amplify from "aws-amplify";
 import "@aws-amplify/ui-vue";

@@ -18,12 +18,11 @@
       </title-area>
 
       <add-task-field
-        @reflection-taskname="newTaskName = $event"
         @all-clear="allClear"
         @add-todo="addTodo"
-        :newTaskName="newTaskName"
+        v-model="newTaskName"
       />
-      <v-card class="mx-auto mt-10" width="600px" tile>
+      <v-card class="mx-auto mt-10" width="600" tile>
         <v-list dense flat>
           <v-subheader class="mb-3 d-flex justify-space-between">
             <div class="text-h6 blue--text ml-2">
@@ -37,9 +36,9 @@
                 v-model="toggleStatus"
                 mandatory
               >
-                <v-btn value="All">All</v-btn>
-                <v-btn value="Active">Active</v-btn>
-                <v-btn value="Completed">Completed</v-btn>
+                <v-btn :value="Status.All">All</v-btn>
+                <v-btn :value="Status.Active">Active</v-btn>
+                <v-btn :value="Status.Completed">Completed</v-btn>
               </v-btn-toggle>
             </div>
           </v-subheader>
@@ -108,37 +107,55 @@ export default defineComponent({
   setup() {
     const accessor = useAccessor();
 
+    /*
+    * TODO: localStorageから復元したタスクを画面に表示する
+    * このブロックは、自動的にvuex-persistedstateが読み込むので、不要になります。
+    * ただし、現在は動作していないので、理由を考えて、全体的に修正してください。
+    * ヒント：vuex-persistedstateがstateを復元したときにはwatch(storeTodos, () => {...})は反応しない
+    */
     //アプリ起動時にlocalstorageにタスクがあれば画面に表示する
-    onMounted(() => {
-      if (!JSON.parse(localStorage.getItem("LocalTodos") || "")) return;
-      const localstrage = JSON.parse(
-        localStorage.getItem("LocalTodos") || ""
-      ) as LocalTodos;
-      if (localstrage == null) return;
-      if (!localstrage.todos.storeTodos) return;
-      accessor.todos.initTodos(localstrage.todos.storeTodos);
-    });
+    // onMounted(() => {
+    //   if (!JSON.parse(localStorage.getItem("LocalTodos") || "")) return;
+    //   const localstrage = JSON.parse(
+    //     localStorage.getItem("LocalTodos") || ""
+    //   ) as LocalTodos;
+    //   if (localstrage == null) return;
+    //   if (!localstrage.todos.storeTodos) return;
+    //   accessor.todos.initTodos(localstrage.todos.storeTodos);
+    // });
 
     //v-text-fieldに入力された値が反映される
     const newTaskName = ref("");
+    /*
+     * TODO: このtodos変数を廃止する。
+     * todos変数は、TodosType[]の型をしているけれども、実際には.selectedをref化したいだけ。
+     * それ以外の値はstoreの値を使っているので、別にコピーを取ってくる必要はない。
+     * それならば、素直にselectedだけref化して編集状態を管理した方が良いよね。
+     */
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
     const storeTodos = computed(() => accessor.todos.getterTodos);
 
     //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更
     const filteredTodos = computed(() => {
-      if (toggleStatus.value === Status.Active) {
-        return todos.value.filter((todo) => todo.done === false);
-      } else if (toggleStatus.value === Status.Completed) {
-        return todos.value.filter((todo) => todo.done === true);
-      } else return todos.value;
+      switch (toggleStatus.value) {
+        case Status.Active:
+          return todos.value.filter((todo) => todo.done === false);
+        case Status.Completed:
+          return todos.value.filter((todo) => todo.done === true);
+        case Status.All:
+          return todos.value;
+        default:
+          // ここには来ない
+      }
     });
 
     //storeのgetterTodosに変更（追加、削除など）があるたびに検知してtodosを変更する
     watch(
       storeTodos,
-      () => {
-        todos.value = JSON.parse(JSON.stringify(storeTodos.value));
+      (value) => { // watchでは、変更後の値を引数で受け取って、その値を使う（直接監視しているリアクティブ変数を読み出さない）
+        console.log('storeTodosが変更されました', value)
+        todos.value = JSON.parse(JSON.stringify(value));
       },
       //タスク（todo）の中のオブジェクト（done）などの変更も検知できるようにdeepをtrueにする
       { deep: true }
@@ -195,6 +212,7 @@ export default defineComponent({
       editTaskName,
       changeTaskName,
       allClear,
+      Status,
     };
   },
 });
