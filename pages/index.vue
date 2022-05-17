@@ -2,8 +2,21 @@
   <amplify-authenticator>
     <v-app>
       <title-area>
-        <p class="text-h3 text-center ma-0">YANASE TODO LIST</p>
+        <!-- scoped slotを使用して子コンポーネントのデータを受け取るÏ -->
+        <template #owner="{ ownerName, message }">
+          <h2 class="text-center">
+            HELLO {{ ownerName.firstName }}
+            {{ ownerName.lastName }}
+            <br />
+            {{ message }}
+          </h2>
+        </template>
+        <!-- scoped slotを使用して親コンポーネントのボタンから子コンポーネントのonメソッドを発火する -->
+        <template #activator="{ on }">
+          <v-btn class="mt-5 ml-5" @click="on">表示切替</v-btn>
+        </template>
       </title-area>
+
       <add-task-field
         @reflection-taskname="newTaskName = $event"
         @all-clear="allClear"
