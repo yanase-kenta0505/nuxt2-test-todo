@@ -58,7 +58,6 @@
               </v-list-item-action>
               <v-list-item-content
                 :class="[todo.done ? 'text-decoration-line-through' : '']"
-                v-bind="todo.done"
               >
                 <v-text-field
                   id="taskName"

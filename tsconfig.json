@@ -3,6 +3,7 @@
     "experimentalDisableTemplateSupport":true
     },
     "compilerOptions": {
+      "noImplicitAny": true,
       "target": "ES2018",
       "module": "ESNext",
       "moduleResolution": "Node",
