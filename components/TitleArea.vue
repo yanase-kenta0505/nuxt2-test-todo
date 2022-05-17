@@ -1,15 +1,10 @@
 <template>
-  <v-card
-    width="600px"
-    class="mx-auto mt-10 blue white--text"
-    tile
-    elevation="0"
-  >
+  <v-card v-bind="titleAreaWidth" tile>
     <div class="d-flex justify-center">
       <slot v-if="show" name="owner" :ownerName="ownerName" :message="message">
-        <p class="text-h3 text-center ma-0">TODO LIST</p>
+        <p class="text-h3 text-center">TODO LIST</p>
       </slot>
-      
+
       <slot name="activator" :on="on"></slot>
     </div>
   </v-card>
@@ -32,11 +27,19 @@ export default defineComponent({
     const on = () => {
       show.value = !show.value;
     };
+
+    const titleAreaWidth = {
+      width: "600px",
+      class: "mx-auto mt-10 blue white--text",
+      elevation: "100",
+    };
+
     return {
       ownerName,
       message,
       show,
-      on
+      titleAreaWidth,
+      on,
     };
   },
 });

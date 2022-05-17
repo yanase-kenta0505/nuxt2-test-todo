@@ -1,5 +1,5 @@
 <template>
-  <amplify-authenticator>
+  
     <v-app>
       <title-area>
         <!-- scoped slotを使用して子コンポーネントのデータを受け取るÏ -->
@@ -58,6 +58,7 @@
               </v-list-item-action>
               <v-list-item-content
                 :class="[todo.done ? 'text-decoration-line-through' : '']"
+                v-bind="todo.done"
               >
                 <v-text-field
                   id="taskName"
@@ -85,10 +86,8 @@
         </v-list>
       </v-card>
       <v-card width="600px" class="mx-auto mt-5">
-        <amplify-sign-out />
       </v-card>
     </v-app>
-  </amplify-authenticator>
 </template>
 
 <script lang="ts">
@@ -121,10 +120,8 @@ export default defineComponent({
 
     //v-text-fieldに入力された値が反映される
     const newTaskName = ref("");
-
     const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
-
     const storeTodos = computed(() => accessor.todos.getterTodos);
 
     //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更
