@@ -1,4 +1,8 @@
+
+// Vuexに型をつけるために使用
 import { getterTree, mutationTree, actionTree } from "typed-vuex";
+
+
 import { TodosType, Item } from "~/type/TodosType";
 
 export const state = () => ({
