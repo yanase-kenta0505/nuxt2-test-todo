@@ -22,7 +22,7 @@
         @all-clear="allClear"
         @add-todo="addTodo"
       />
-      <v-card class="mx-auto mt-10" width="600px" tile>
+      <v-card class="mx-auto mt-10" width="600" tile>
         <v-list dense flat>
           <v-subheader class="mb-3 d-flex justify-space-between">
             <div class="text-h6 blue--text ml-2">
@@ -36,9 +36,9 @@
                 v-model="toggleStatus"
                 mandatory
               >
-                <v-btn value="All">All</v-btn>
-                <v-btn value="Active">Active</v-btn>
-                <v-btn value="Completed">Completed</v-btn>
+                <v-btn :value="Status.All">All</v-btn>
+                <v-btn :value="Status.Active">Active</v-btn>
+                <v-btn :value="Status.Completed">Completed</v-btn>
               </v-btn-toggle>
             </div>
           </v-subheader>
@@ -188,6 +188,7 @@ export default defineComponent({
       storeTodos,
       filteredTodos,
       findDoneItemLength,
+      Status,
       changeTodoDone,
       addTodo,
       deleteItem,
