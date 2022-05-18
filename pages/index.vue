@@ -18,10 +18,9 @@
       </title-area>
 
       <add-task-field
-        @reflection-taskname="newTaskName = $event"
+        v-model="newTaskName"
         @all-clear="allClear"
         @add-todo="addTodo"
-        :newTaskName="newTaskName"
       />
       <v-card class="mx-auto mt-10" width="600px" tile>
         <v-list dense flat>
