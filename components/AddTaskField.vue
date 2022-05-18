@@ -1,9 +1,10 @@
 <template>
   <v-card width="600px" class="mx-auto mt-10 d-flex" tile>
     <all-clear-btn @all-clear="allClear" class="align-self-center ml-2" />
+
     <v-text-field
-      :value="newTaskName"
-      @input="$emit('reflection-taskname', $event)"
+      :value="value"
+      @input="$emit('input',$event)"
       @keydown.enter="addTodo"
       autofocus
       autocomplete="off"
@@ -23,20 +24,17 @@
 import { defineComponent } from "@nuxtjs/composition-api";
 
 export default defineComponent({
-
-
   props: {
-    newTaskName: {
+    value: {
       type: String,
     },
   },
 
   setup(props, { emit }) {
-    
     const addTodo = () => {
       emit("add-todo", {
         id: new Date().getTime().toString(16),
-        taskName: props.newTaskName,
+        taskName: props.value,
         selected: false,
         done: false,
       });
