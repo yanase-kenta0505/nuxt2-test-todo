@@ -75,8 +75,8 @@
                 />
               </v-list-item-content>
               <v-list-item-icon>
-                <edit-btn @edit-task-name="editTaskName(index)" />
-                <delete-btn @delete-item="deleteItem(index)" />
+                <edit-btn @edit-task-name="changeTodoselected(index)" />
+                <delete-btn @delete-item="deleteTodo(index)" />
               </v-list-item-icon>
             </v-list-item>
             <v-divider />
@@ -125,7 +125,6 @@ export default defineComponent({
       }
     });
 
-    
     //完了していないタスクの個数を集計する
     const findDoneItemLength = computed(() => {
       const findDoneItem = storeTodos.value.filter(
@@ -144,13 +143,14 @@ export default defineComponent({
       newTaskName.value = "";
     };
 
-    const deleteItem = (index: number) => {
-      accessor.todos.deleteTodos(index);
+    const deleteTodo = (index: number) => {
+      accessor.todos.deleteTodo(index);
     };
 
-    const editTaskName = (index: number) => {
+    const changeTodoselected = (index: number) => {
       if (storeTodos.value[index].done) return;
-      storeTodos.value[index].selected = !storeTodos.value[index].selected;
+      // storeTodos.value[index].selected = !storeTodos.value[index].selected;
+      accessor.todos.changeTodoselected(index);
     };
 
     const changeTaskName = (id: string, e: Event) => {
@@ -175,8 +175,8 @@ export default defineComponent({
       Status,
       changeTodoDone,
       addTodo,
-      deleteItem,
-      editTaskName,
+      deleteTodo,
+      changeTodoselected,
       changeTaskName,
       allClear,
     };
