@@ -1,6 +1,6 @@
 
 // Vuexに型をつけるために使用
-import { getterTree, mutationTree, actionTree } from "typed-vuex";
+import {  mutationTree, actionTree } from "typed-vuex";
 
 
 import { TodosType, Item } from "~/type/TodosType";
@@ -9,11 +9,11 @@ export const state = () => ({
   storeTodos: [] as TodosType[],
 });
 
-export const getters = getterTree(state, {
-  getterTodos(state) {
-    return state.storeTodos;
-  },
-});
+// export const getters = getterTree(state, {
+//   getterTodos(state) {
+//     return state.storeTodos;
+//   },
+// });
 
 export const mutations = mutationTree(state, {
   mutationAddTodo(state, newTodoItem: TodosType) {
@@ -49,7 +49,7 @@ export const mutations = mutationTree(state, {
 });
 
 export const actions = actionTree(
-  { state, getters, mutations },
+  { state,  mutations },
   {
     initTodos(context, initialTodos: TodosType[]): void {
       context.commit("mutationInitTodos", initialTodos);

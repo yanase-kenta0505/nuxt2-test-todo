@@ -91,61 +91,46 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  onMounted,
-  watch,
-} from "@nuxtjs/composition-api";
+import { defineComponent, ref, computed, watch } from "@nuxtjs/composition-api";
 
 import { useAccessor } from "~/hooks/useAccessor";
 
-import { Status, TodosType, LocalTodos } from "~/type/TodosType";
+import { Status, TodosType } from "~/type/TodosType";
 
 export default defineComponent({
   setup() {
     const accessor = useAccessor();
 
-    //アプリ起動時にlocalstorageにタスクがあれば画面に表示する
-    onMounted(() => {
-      if (!JSON.parse(localStorage.getItem("LocalTodos") || "")) return;
-      const localstrage = JSON.parse(
-        localStorage.getItem("LocalTodos") || ""
-      ) as LocalTodos;
-      if (localstrage == null) return;
-      if (!localstrage.todos.storeTodos) return;
-      accessor.todos.initTodos(localstrage.todos.storeTodos);
-    });
-
     //v-text-fieldに入力された値が反映される
     const newTaskName = ref("");
-    const todos = ref<TodosType[]>([]);
     const toggleStatus = ref(Status.All);
-    const storeTodos = computed(() => accessor.todos.getterTodos);
+    let storeTodos = computed(() => {
+      const state_storeTodos = accessor.todos.storeTodos;
+      return JSON.parse(JSON.stringify(state_storeTodos));
+    });
 
     //絞り込みのボタンが押されるたびに（toggleStatusの内容が変わるたびに）表示するタスクを変更
     const filteredTodos = computed(() => {
-      if (toggleStatus.value === Status.Active) {
-        return todos.value.filter((todo) => todo.done === false);
-      } else if (toggleStatus.value === Status.Completed) {
-        return todos.value.filter((todo) => todo.done === true);
-      } else return todos.value;
+      switch (toggleStatus.value) {
+        case Status.Active:
+          return storeTodos.value.filter(
+            (todo: TodosType) => todo.done === false
+          );
+        case Status.Completed:
+          return storeTodos.value.filter(
+            (todo: TodosType) => todo.done === true
+          );
+        case Status.All:
+          return storeTodos.value;
+      }
     });
 
-    //storeのgetterTodosに変更（追加、削除など）があるたびに検知してtodosを変更する
-    watch(
-      storeTodos,
-      () => {
-        todos.value = JSON.parse(JSON.stringify(storeTodos.value));
-      },
-      //タスク（todo）の中のオブジェクト（done）などの変更も検知できるようにdeepをtrueにする
-      { deep: true }
-    );
-
+    
     //完了していないタスクの個数を集計する
     const findDoneItemLength = computed(() => {
-      const findDoneItem = todos.value.filter((todo) => !todo.done);
+      const findDoneItem = storeTodos.value.filter(
+        (todo: TodosType) => !todo.done
+      );
       return findDoneItem.length;
     });
 
@@ -164,8 +149,8 @@ export default defineComponent({
     };
 
     const editTaskName = (index: number) => {
-      if (todos.value[index].done) return;
-      todos.value[index].selected = !todos.value[index].selected;
+      if (storeTodos.value[index].done) return;
+      storeTodos.value[index].selected = !storeTodos.value[index].selected;
     };
 
     const changeTaskName = (id: string, e: Event) => {
@@ -182,7 +167,6 @@ export default defineComponent({
     };
 
     return {
-      todos,
       toggleStatus,
       newTaskName,
       storeTodos,
